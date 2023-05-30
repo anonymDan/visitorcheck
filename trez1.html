@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visitor Counter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .counter-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .counter-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            font-size: 18px;
+            opacity: 0;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+        }
+        .counter-item.today {
+            animation-name: todayCounterAnimation;
+            animation-delay: 0.5s;
+        }
+        .counter-item.week {
+            animation-name: weekCounterAnimation;
+            animation-delay: 0.3s;
+        }
+        .counter-item.month {
+            animation-name: monthCounterAnimation;
+            animation-delay: 0.2s;
+        }
+        .counter-item.year {
+            animation-name: yearCounterAnimation;
+            animation-delay: 0.1s;
+        }
+        .counter-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        @keyframes todayCounterAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes weekCounterAnimation {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes monthCounterAnimation {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes yearCounterAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="counter-container">
+        <h2 style="text-align:center">Visitors</h2>
+        <div class="counter-item today">
+            <img class="counter-icon" src="visitor.png" alt="Visitor Icon">
+            today: <br><span id="todayCounter">0</span>
+        </div>
+        <div class="counter-item week">
+            <img class="counter-icon" src="visitor.png" alt="Week Icon">
+            this week: <br><span id="weekCounter">0</span>
+        </div>
+        <div class="counter-item month">
+            <img class="counter-icon" src="visitor.png" alt="Month Icon">
+            this month: <br><span id="monthCounter">0</span>
+        </div>
+        <div class="counter-item year">
+            <img class="counter-icon" src="visitor.png" alt="Year Icon">
+            this year: <br><span id="yearCounter">0</span>
+        </div>
+    </div>
+
+    <script>
+        // Function to update the counters with animation
+        function animateCounter(element, targetValue) {
+            var currentCount = 0;
+            var increment = Math.ceil(targetValue / (60 * 24));
+
+            var interval = setInterval(function() {
+                currentCount += increment;
+                element.innerText = currentCount;
+
+                if (currentCount >= targetValue) {
+                    clearInterval(interval);
+                }
+            }, 60); // 60 milliseconds = 1 frame (to make the animation smoother)
+        }
+
+        // Function to update the counters
+        function updateCounters() {
+            var todayCounter = document.getElementById('todayCounter');
+            var weekCounter = document.getElementById('weekCounter');
+            var monthCounter = document.getElementById('monthCounter');
+            var yearCounter = document.getElementById('yearCounter');
+
+            var defaultVisitorsPerDay = 100000; // Set the default number of visitors per day
+
+            var targetTodayCount = defaultVisitorsPerDay;
+            var targetWeekCount = defaultVisitorsPerDay * 7;
+            var targetMonthCount = defaultVisitorsPerDay * 30;
+            var targetYearCount = defaultVisitorsPerDay * 365;
+
+            animateCounter(todayCounter, targetTodayCount);
+            animateCounter(weekCounter, targetWeekCount);
+            animateCounter(monthCounter, targetMonthCount);
+            animateCounter(yearCounter, targetYearCount);
+        }
+
+        // Call the updateCounters function on page load
+        updateCounters();
+    </script>
+</body>
+</html>
